@@ -80,7 +80,7 @@ export default async function EditChapterPage({ params }: Props) {
                     placeholder="https://example.com/video.mp4"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
                   />
-                  <p className="text-xs text-gray-400 mt-1">Поддерживаются прямые ссылки на MP4 файлы</p>
+                  <p className="text-xs text-gray-400 mt-1">YouTube ссылки (youtube.com/watch?v=...) и прямые MP4 ссылки</p>
                 </div>
               ) : (
                 <div>

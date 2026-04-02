@@ -52,12 +52,15 @@ export async function updateCourse(courseId: string, formData: FormData) {
   const categoryId = formData.get("categoryId") as string;
   const thumbnail = (formData.get("thumbnail") as string)?.trim();
 
+  if (!title || !description) return;
+
   await prisma.course.update({
     where: { id: courseId, instructorId: session.id },
     data: { title, description, categoryId: categoryId || null, thumbnail: thumbnail || null },
   });
 
   revalidatePath(`/instructor/courses/${courseId}`);
+  revalidatePath("/instructor/dashboard");
 }
 
 export async function toggleCoursePublish(courseId: string, isPublished: boolean) {
@@ -110,6 +113,8 @@ export async function updateChapter(chapterId: string, courseId: string, formDat
   const isPublished = formData.get("isPublished") === "on";
   const description = (formData.get("description") as string)?.trim();
 
+  if (!title) return;
+
   await prisma.course.findFirstOrThrow({ where: { id: courseId, instructorId: session.id } });
 
   await prisma.chapter.update({
@@ -117,8 +122,8 @@ export async function updateChapter(chapterId: string, courseId: string, formDat
     data: { title, videoUrl: videoUrl || null, content: content || null, isFree, isPublished, description: description || null },
   });
 
-  revalidatePath(`/instructor/courses/${courseId}/chapters/${chapterId}`);
   revalidatePath(`/instructor/courses/${courseId}/chapters`);
+  redirect(`/instructor/courses/${courseId}/chapters`);
 }
 
 export async function deleteChapter(chapterId: string, courseId: string) {

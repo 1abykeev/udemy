@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { updateCourse, toggleCoursePublish, deleteCourse } from "@/app/actions/instructor";
 import Navbar from "@/components/Navbar";
+import ConfirmButton from "@/components/ConfirmButton";
 
 type Props = { params: Promise<{ courseId: string }> };
 
@@ -123,13 +124,12 @@ export default async function EditCoursePage({ params }: Props) {
             <div className="mt-8 pt-6 border-t border-gray-200">
               <h3 className="text-sm font-medium text-red-600 mb-3">Опасная зона</h3>
               <form action={deleteAction}>
-                <button
-                  type="submit"
+                <ConfirmButton
+                  message="Удалить курс? Это действие необратимо."
                   className="px-4 py-2 text-sm text-red-600 border border-red-300 rounded-lg hover:bg-red-50 transition-colors"
-                  onClick={(e) => { if (!confirm("Удалить курс? Это действие необратимо.")) e.preventDefault(); }}
                 >
                   Удалить курс
-                </button>
+                </ConfirmButton>
               </form>
             </div>
           </div>

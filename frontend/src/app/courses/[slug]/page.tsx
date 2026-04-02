@@ -13,12 +13,11 @@ export default async function CourseDetailPage({ params }: Props) {
   const session = await getSession();
 
   const course = await prisma.course.findUnique({
-    where: { slug, isPublished: true },
+    where: { slug },
     include: {
       instructor: { select: { name: true, id: true } },
       category: { select: { name: true } },
       chapters: {
-        where: { isPublished: true },
         orderBy: { position: "asc" },
         select: { id: true, title: true, type: true, position: true, isFree: true },
       },

@@ -4,6 +4,27 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { markChapterComplete } from "@/app/actions/courses";
 
+function getYouTubeEmbedUrl(url: string): string | null {
+  try {
+    const u = new URL(url);
+    // https://www.youtube.com/watch?v=ID
+    if (u.hostname.includes("youtube.com") && u.searchParams.get("v")) {
+      return `https://www.youtube.com/embed/${u.searchParams.get("v")}`;
+    }
+    // https://youtu.be/ID
+    if (u.hostname === "youtu.be") {
+      return `https://www.youtube.com/embed${u.pathname}`;
+    }
+    // already an embed URL
+    if (u.hostname.includes("youtube.com") && u.pathname.startsWith("/embed/")) {
+      return url;
+    }
+  } catch {
+    // not a valid URL
+  }
+  return null;
+}
+
 type Props = { params: Promise<{ courseSlug: string; chapterPosition: string }> };
 
 export default async function LearnPage({ params }: Props) {
@@ -16,7 +37,6 @@ export default async function LearnPage({ params }: Props) {
     where: { slug: courseSlug },
     include: {
       chapters: {
-        where: { isPublished: true },
         orderBy: { position: "asc" },
       },
       instructor: { select: { name: true } },
@@ -123,19 +143,32 @@ export default async function LearnPage({ params }: Props) {
         <div className="flex-1 p-6 max-w-4xl mx-auto w-full">
           {chapter.type === "VIDEO" ? (
             <div className="mb-8">
-              {chapter.videoUrl ? (
-                <div className="aspect-video rounded-xl overflow-hidden bg-black">
-                  <video
-                    key={chapter.videoUrl}
-                    controls
-                    className="w-full h-full"
-                    preload="metadata"
-                  >
-                    <source src={chapter.videoUrl} />
-                    Ваш браузер не поддерживает видео.
-                  </video>
-                </div>
-              ) : (
+              {chapter.videoUrl ? (() => {
+                const embedUrl = getYouTubeEmbedUrl(chapter.videoUrl);
+                return embedUrl ? (
+                  <div className="aspect-video rounded-xl overflow-hidden bg-black">
+                    <iframe
+                      src={embedUrl}
+                      className="w-full h-full"
+                      allowFullScreen
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      title={chapter.title}
+                    />
+                  </div>
+                ) : (
+                  <div className="aspect-video rounded-xl overflow-hidden bg-black">
+                    <video
+                      key={chapter.videoUrl}
+                      controls
+                      className="w-full h-full"
+                      preload="metadata"
+                    >
+                      <source src={chapter.videoUrl} />
+                      Ваш браузер не поддерживает видео.
+                    </video>
+                  </div>
+                );
+              })() : (
                 <div className="aspect-video rounded-xl bg-gray-100 flex items-center justify-center">
                   <p className="text-gray-400">Видео ещё не добавлено</p>
                 </div>

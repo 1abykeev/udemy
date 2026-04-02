@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { createChapter, reorderChapter, deleteChapter } from "@/app/actions/instructor";
 import Navbar from "@/components/Navbar";
+import ConfirmButton from "@/components/ConfirmButton";
 
 type Props = { params: Promise<{ courseId: string }> };
 
@@ -80,13 +81,12 @@ export default async function ChaptersPage({ params }: Props) {
                           Изменить
                         </Link>
                         <form action={deleteAction}>
-                          <button
-                            type="submit"
+                          <ConfirmButton
+                            message="Удалить урок?"
                             className="p-1.5 text-gray-400 hover:text-red-500 transition-colors"
-                            onClick={(e) => { if (!confirm("Удалить урок?")) e.preventDefault(); }}
                           >
                             ✕
-                          </button>
+                          </ConfirmButton>
                         </form>
                       </div>
                     </div>
