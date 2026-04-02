@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,10 +16,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  courses     Course[]     @relation("InstructorCourses")
+  courses     Course[]      @relation("InstructorCourses")
   enrollments Enrollment[]
   reviews     Review[]
   purchases   Purchase[]
+  progress    UserProgress[]
 }
 
 enum Role {
@@ -39,6 +37,7 @@ model Category {
 
 model Course {
   id          String   @id @default(cuid())
+  slug        String   @unique
   title       String
   description String
   price       Float    @default(0)
@@ -59,16 +58,23 @@ model Course {
   purchases   Purchase[]
 }
 
+enum ChapterType {
+  VIDEO
+  ARTICLE
+}
+
 model Chapter {
-  id          String   @id @default(cuid())
+  id          String      @id @default(cuid())
   title       String
   description String?
+  type        ChapterType @default(VIDEO)
   videoUrl    String?
+  content     String?
   position    Int
-  isPublished Boolean  @default(false)
-  isFree      Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isPublished Boolean     @default(false)
+  isFree      Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -96,6 +102,7 @@ model UserProgress {
   updatedAt   DateTime @updatedAt
 
   userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   chapterId String
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
