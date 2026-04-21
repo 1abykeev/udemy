@@ -10,7 +10,8 @@
       "Bash(./node_modules/.bin/tsc:*)",
       "Bash(npm run:*)",
       "Bash(git add:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(pg_isready -h localhost -p 5432)"
     ]
   }
 }
