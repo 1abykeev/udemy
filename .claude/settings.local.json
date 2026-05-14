@@ -11,7 +11,11 @@
       "Bash(npm run:*)",
       "Bash(git add:*)",
       "Bash(git push:*)",
-      "Bash(pg_isready -h localhost -p 5432)"
+      "Bash(pg_isready -h localhost -p 5432)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\hustle\\\\udemy\" -Force)",
+      "Bash(Select-Object Name, Mode)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(printf .PHONY: build up down logs shell restart\\\\n\\\\nSERVICE ?= app\\\\n\\\\nbuild:\\\\n\\\\tdocker compose build\\\\n\\\\nup:\\\\n\\\\tdocker compose up -d\\\\n\\\\ndown:\\\\n\\\\tdocker compose down\\\\n\\\\nlogs:\\\\n\\\\tdocker compose logs -f $\\(SERVICE\\)\\\\n\\\\nshell:\\\\n\\\\tdocker compose exec $\\(SERVICE\\) sh\\\\n\\\\nrestart:\\\\n\\\\tdocker compose restart\\\\n *)"
     ]
   }
 }
