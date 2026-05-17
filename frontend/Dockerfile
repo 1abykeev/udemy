@@ -16,7 +16,11 @@ COPY . .
 RUN npx prisma generate
 RUN npm run build
 
-# ── Stage 3: production runner ─────────────────────────────────────────────────
+# ── Stage 3: migrator (runs prisma migrate deploy, then exits) ─────────────────
+FROM builder AS migrator
+CMD ["npx", "prisma", "migrate", "deploy"]
+
+# ── Stage 4: production runner ─────────────────────────────────────────────────
 FROM base AS runner
 WORKDIR /app
 

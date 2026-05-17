@@ -19,3 +19,6 @@ shell:
 
 restart:
 	docker compose restart
+
+reset:
+	docker compose down -v && docker compose build && docker compose up -d
