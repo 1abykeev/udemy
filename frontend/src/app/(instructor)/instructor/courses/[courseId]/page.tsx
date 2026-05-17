@@ -74,7 +74,7 @@ export default async function EditCoursePage({ params }: Props) {
                   name="title"
                   defaultValue={course.title}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
                 />
               </div>
 
@@ -94,7 +94,7 @@ export default async function EditCoursePage({ params }: Props) {
                 <select
                   name="categoryId"
                   defaultValue={course.categoryId ?? ""}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] bg-white"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] bg-white"
                 >
                   <option value="">Без категории</option>
                   {categories.map((cat) => (
@@ -109,7 +109,7 @@ export default async function EditCoursePage({ params }: Props) {
                   name="thumbnail"
                   defaultValue={course.thumbnail ?? ""}
                   placeholder="https://..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
                 />
               </div>
 

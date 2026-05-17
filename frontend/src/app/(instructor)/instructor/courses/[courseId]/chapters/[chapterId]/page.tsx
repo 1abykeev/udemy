@@ -56,7 +56,7 @@ export default async function EditChapterPage({ params }: Props) {
                   name="title"
                   defaultValue={chapter.title}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
                 />
               </div>
 
@@ -66,7 +66,7 @@ export default async function EditChapterPage({ params }: Props) {
                   name="description"
                   defaultValue={chapter.description ?? ""}
                   placeholder="Чему научатся студенты в этом уроке"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
                 />
               </div>
 
@@ -78,7 +78,7 @@ export default async function EditChapterPage({ params }: Props) {
                     type="url"
                     defaultValue={chapter.videoUrl ?? ""}
                     placeholder="https://example.com/video.mp4"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
                   />
                   <p className="text-xs text-gray-400 mt-1">YouTube ссылки (youtube.com/watch?v=...) и прямые MP4 ссылки</p>
                 </div>

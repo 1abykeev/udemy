@@ -103,11 +103,11 @@ export default async function ChaptersPage({ params }: Props) {
                   name="title"
                   required
                   placeholder="Название урока"
-                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
                 />
                 <select
                   name="type"
-                  className="px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] bg-white"
+                  className="px-3 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] bg-white"
                 >
                   <option value="VIDEO">🎬 Видео</option>
                   <option value="ARTICLE">📄 Статья</option>
