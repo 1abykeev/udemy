@@ -64,7 +64,7 @@ export default function RegisterPage() {
               type="text"
               required
               placeholder="Ваше имя"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
             />
           </div>
 
@@ -78,7 +78,7 @@ export default function RegisterPage() {
               type="email"
               required
               placeholder="you@example.com"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
             />
           </div>
 
@@ -92,7 +92,7 @@ export default function RegisterPage() {
               type="password"
               required
               placeholder="Минимум 6 символов"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
             />
           </div>
 
