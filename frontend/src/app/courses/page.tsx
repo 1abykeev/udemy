@@ -127,7 +127,9 @@ export default async function CoursesPage({ searchParams }: Props) {
                       )}
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-gray-500">{course._count.chapters} уроков</span>
-                        <span className="text-sm font-bold text-[#a435f0]">Бесплатно</span>
+                        <span className="text-sm font-bold text-[#a435f0]">
+                          {course.price > 0 ? `${course.price.toLocaleString("ky-KG")} сом` : "Бесплатно"}
+                        </span>
                       </div>
                     </div>
                   </Link>

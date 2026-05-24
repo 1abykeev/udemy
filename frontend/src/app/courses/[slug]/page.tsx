@@ -82,7 +82,9 @@ export default async function CourseDetailPage({ params }: Props) {
                   <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <p className="text-2xl font-bold text-gray-900 mb-1">Бесплатно</p>
+              <p className="text-2xl font-bold text-gray-900 mb-1">
+                {course.price > 0 ? `${course.price.toLocaleString("ky-KG")} сом` : "Бесплатно"}
+              </p>
               <p className="text-sm text-gray-500 mb-4">{course.chapters.length} уроков</p>
 
               {isEnrolled ? (
@@ -93,14 +95,23 @@ export default async function CourseDetailPage({ params }: Props) {
                   Продолжить обучение →
                 </Link>
               ) : session ? (
-                <form action={enrollAction}>
-                  <button
-                    type="submit"
-                    className="w-full py-3 bg-[#a435f0] hover:bg-[#8710d8] text-white font-bold rounded-lg transition-colors"
+                course.price > 0 ? (
+                  <Link
+                    href={`/checkout/${course.slug}`}
+                    className="block w-full py-3 bg-[#a435f0] hover:bg-[#8710d8] text-white font-bold rounded-lg text-center transition-colors"
                   >
-                    Записаться бесплатно
-                  </button>
-                </form>
+                    Купить курс
+                  </Link>
+                ) : (
+                  <form action={enrollAction}>
+                    <button
+                      type="submit"
+                      className="w-full py-3 bg-[#a435f0] hover:bg-[#8710d8] text-white font-bold rounded-lg transition-colors"
+                    >
+                      Записаться бесплатно
+                    </button>
+                  </form>
+                )
               ) : (
                 <Link
                   href="/login"

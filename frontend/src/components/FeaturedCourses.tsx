@@ -84,7 +84,9 @@ export default async function FeaturedCourses() {
                   <p className="text-xs text-gray-500 mb-2">
                     {course._count.chapters} уроков • {course.category?.name ?? ""}
                   </p>
-                  <span className="text-sm font-bold text-[#a435f0]">Бесплатно</span>
+                  <span className="text-sm font-bold text-[#a435f0]">
+                    {course.price > 0 ? `${course.price.toLocaleString("ky-KG")} сом` : "Бесплатно"}
+                  </span>
                   <span className="text-xs text-gray-500 ml-2">{course._count.enrollments} студентов</span>
                 </div>
               </Link>

@@ -31,6 +31,7 @@ export async function createCourse(_state: { error?: string } | undefined, formD
   const title = (formData.get("title") as string)?.trim();
   const description = (formData.get("description") as string)?.trim();
   const categoryId = formData.get("categoryId") as string;
+  const price = parseFloat(formData.get("price") as string) || 0;
 
   if (!title || !description) return { error: "Заполните название и описание" };
 
@@ -41,6 +42,7 @@ export async function createCourse(_state: { error?: string } | undefined, formD
       slug: slugify(title),
       instructorId: session.id,
       categoryId: categoryId || null,
+      price: Math.max(0, price),
     },
   });
 
@@ -52,6 +54,7 @@ export async function updateCourse(courseId: string, formData: FormData) {
   const title = (formData.get("title") as string)?.trim();
   const description = (formData.get("description") as string)?.trim();
   const categoryId = formData.get("categoryId") as string;
+  const price = parseFloat(formData.get("price") as string) || 0;
   const thumbnailFile = formData.get("thumbnail") as File | null;
 
   if (!title || !description) return;
@@ -74,6 +77,7 @@ export async function updateCourse(courseId: string, formData: FormData) {
     data: {
       title,
       description,
+      price: Math.max(0, price),
       categoryId: categoryId || null,
       ...(thumbnail !== undefined && { thumbnail }),
     },

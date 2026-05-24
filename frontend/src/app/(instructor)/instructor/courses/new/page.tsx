@@ -46,6 +46,21 @@ export default function NewCoursePage() {
               />
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Цена (сом) <span className="text-gray-400 font-normal">— 0 = бесплатно</span>
+              </label>
+              <input
+                name="price"
+                type="number"
+                min="0"
+                step="1"
+                defaultValue="0"
+                placeholder="0"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+              />
+            </div>
+
             {state?.error && (
               <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-2.5">
                 {state.error}
