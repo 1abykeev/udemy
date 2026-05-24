@@ -67,7 +67,7 @@ export default async function EditCoursePage({ params }: Props) {
           <div className="bg-white border border-gray-200 rounded-2xl p-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-6">Редактировать курс</h1>
 
-            <form action={updateAction} className="space-y-5">
+            <form action={updateAction} className="space-y-5" encType="multipart/form-data">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Название</label>
                 <input
@@ -104,13 +104,21 @@ export default async function EditCoursePage({ params }: Props) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">URL обложки (необязательно)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Обложка курса (необязательно)</label>
+                {course.thumbnail && (
+                  <img
+                    src={course.thumbnail}
+                    alt="Обложка"
+                    className="w-full h-40 object-cover rounded-lg mb-3 border border-gray-200"
+                  />
+                )}
                 <input
                   name="thumbnail"
-                  defaultValue={course.thumbnail ?? ""}
-                  placeholder="https://..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
+                  type="file"
+                  accept="image/*"
+                  className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#a435f0] file:text-white hover:file:bg-[#8710d8] cursor-pointer"
                 />
+                <p className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP — рекомендуется 1280×720</p>
               </div>
 
               <button

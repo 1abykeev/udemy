@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { updateChapter } from "@/app/actions/instructor";
 import Navbar from "@/components/Navbar";
+import VideoInput from "@/components/VideoInput";
 
 type Props = { params: Promise<{ courseId: string; chapterId: string }> };
 
@@ -72,15 +73,8 @@ export default async function EditChapterPage({ params }: Props) {
 
               {chapter.type === "VIDEO" ? (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">URL видео</label>
-                  <input
-                    name="videoUrl"
-                    type="url"
-                    defaultValue={chapter.videoUrl ?? ""}
-                    placeholder="https://example.com/video.mp4"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0]"
-                  />
-                  <p className="text-xs text-gray-400 mt-1">YouTube ссылки (youtube.com/watch?v=...) и прямые MP4 ссылки</p>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Видео</label>
+                  <VideoInput defaultValue={chapter.videoUrl ?? ""} chapterId={chapterId} />
                 </div>
               ) : (
                 <div>

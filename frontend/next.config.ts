@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "1gb",
+    },
+  },
+  middlewareClientMaxBodySize: "1gb",
 };
 
 export default nextConfig;

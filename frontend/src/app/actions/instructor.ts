@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { ChapterType } from "@prisma/client";
+import { writeFile, mkdir } from "fs/promises";
+import { join } from "path";
 
 async function requireInstructor() {
   const session = await getSession();
@@ -50,13 +52,31 @@ export async function updateCourse(courseId: string, formData: FormData) {
   const title = (formData.get("title") as string)?.trim();
   const description = (formData.get("description") as string)?.trim();
   const categoryId = formData.get("categoryId") as string;
-  const thumbnail = (formData.get("thumbnail") as string)?.trim();
+  const thumbnailFile = formData.get("thumbnail") as File | null;
 
   if (!title || !description) return;
 
+  let thumbnail: string | null | undefined = undefined;
+
+  if (thumbnailFile && thumbnailFile.size > 0) {
+    const bytes = await thumbnailFile.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const ext = thumbnailFile.name.split(".").pop() ?? "jpg";
+    const filename = `${courseId}.${ext}`;
+    const uploadDir = join(process.cwd(), "public", "uploads", "courses");
+    await mkdir(uploadDir, { recursive: true });
+    await writeFile(join(uploadDir, filename), buffer);
+    thumbnail = `/uploads/courses/${filename}`;
+  }
+
   await prisma.course.update({
     where: { id: courseId, instructorId: session.id },
-    data: { title, description, categoryId: categoryId || null, thumbnail: thumbnail || null },
+    data: {
+      title,
+      description,
+      categoryId: categoryId || null,
+      ...(thumbnail !== undefined && { thumbnail }),
+    },
   });
 
   revalidatePath(`/instructor/courses/${courseId}`);
@@ -107,7 +127,7 @@ export async function createChapter(courseId: string, formData: FormData) {
 export async function updateChapter(chapterId: string, courseId: string, formData: FormData) {
   const session = await requireInstructor();
   const title = (formData.get("title") as string)?.trim();
-  const videoUrl = (formData.get("videoUrl") as string)?.trim();
+  const videoUrl = (formData.get("videoUrl") as string)?.trim() || null;
   const content = (formData.get("content") as string)?.trim();
   const isFree = formData.get("isFree") === "on";
   const isPublished = formData.get("isPublished") === "on";
@@ -119,7 +139,7 @@ export async function updateChapter(chapterId: string, courseId: string, formDat
 
   await prisma.chapter.update({
     where: { id: chapterId },
-    data: { title, videoUrl: videoUrl || null, content: content || null, isFree, isPublished, description: description || null },
+    data: { title, videoUrl, content: content || null, isFree, isPublished, description: description || null },
   });
 
   revalidatePath(`/instructor/courses/${courseId}/chapters`);

@@ -16,7 +16,8 @@
       "Bash(Select-Object Name, Mode)",
       "Bash(Format-Table -AutoSize)",
       "Bash(printf .PHONY: build up down logs shell restart\\\\n\\\\nSERVICE ?= app\\\\n\\\\nbuild:\\\\n\\\\tdocker compose build\\\\n\\\\nup:\\\\n\\\\tdocker compose up -d\\\\n\\\\ndown:\\\\n\\\\tdocker compose down\\\\n\\\\nlogs:\\\\n\\\\tdocker compose logs -f $\\(SERVICE\\)\\\\n\\\\nshell:\\\\n\\\\tdocker compose exec $\\(SERVICE\\) sh\\\\n\\\\nrestart:\\\\n\\\\tdocker compose restart\\\\n *)",
-      "Bash(docker compose *)"
+      "Bash(docker compose *)",
+      "PowerShell(New-Item *)"
     ]
   }
 }
