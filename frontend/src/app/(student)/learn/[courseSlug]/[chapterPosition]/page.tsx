@@ -31,7 +31,6 @@ export default async function LearnPage({ params }: Props) {
   const { courseSlug, chapterPosition } = await params;
   const position = parseInt(chapterPosition, 10);
   const session = await getSession();
-  if (!session) redirect("/login");
 
   const course = await prisma.course.findUnique({
     where: { slug: courseSlug },
@@ -45,30 +44,44 @@ export default async function LearnPage({ params }: Props) {
 
   if (!course) notFound();
 
-  // Check enrollment
-  const enrollment = await prisma.enrollment.findUnique({
-    where: { userId_courseId: { userId: session.id, courseId: course.id } },
-  });
-
-  if (!enrollment) redirect(`/courses/${courseSlug}`);
-
   const chapter = course.chapters.find((c) => c.position === position);
   if (!chapter) notFound();
 
-  const progress = await prisma.userProgress.findUnique({
-    where: { userId_chapterId: { userId: session.id, chapterId: chapter.id } },
-  });
+  // Non-free chapters require auth + enrollment
+  if (!chapter.isFree) {
+    if (!session) redirect("/login");
+    const enrollment = await prisma.enrollment.findUnique({
+      where: { userId_courseId: { userId: session.id, courseId: course.id } },
+    });
+    if (!enrollment) redirect(`/courses/${courseSlug}`);
+  }
 
-  const allProgress = await prisma.userProgress.findMany({
-    where: { userId: session.id, chapterId: { in: course.chapters.map((c) => c.id) } },
-  });
+  // Progress tracking — only for enrolled users
+  let isCompleted = false;
+  let completedIds = new Set<string>();
+  let isEnrolled = false;
 
-  const completedIds = new Set(allProgress.filter((p) => p.isCompleted).map((p) => p.chapterId));
-  const isCompleted = !!progress?.isCompleted;
+  if (session) {
+    const enrollment = await prisma.enrollment.findUnique({
+      where: { userId_courseId: { userId: session.id, courseId: course.id } },
+    });
+    isEnrolled = !!enrollment;
+
+    if (isEnrolled) {
+      const allProgress = await prisma.userProgress.findMany({
+        where: { userId: session.id, chapterId: { in: course.chapters.map((c) => c.id) } },
+      });
+      completedIds = new Set(allProgress.filter((p) => p.isCompleted).map((p) => p.chapterId));
+      isCompleted = completedIds.has(chapter.id);
+    }
+  }
+
   const prevChapter = course.chapters.find((c) => c.position === position - 1);
   const nextChapter = course.chapters.find((c) => c.position === position + 1);
 
-  const markAction = markChapterComplete.bind(null, chapter.id, courseSlug, position, !isCompleted);
+  const markAction = isEnrolled
+    ? markChapterComplete.bind(null, chapter.id, courseSlug, position, !isCompleted)
+    : null;
 
   return (
     <div className="flex h-screen bg-[#1c1d1f] overflow-hidden">
@@ -125,18 +138,27 @@ export default async function LearnPage({ params }: Props) {
         {/* Top bar */}
         <div className="bg-[#1c1d1f] px-6 py-3 flex items-center justify-between flex-shrink-0">
           <span className="text-sm text-gray-300">{chapter.title}</span>
-          <form action={markAction}>
-            <button
-              type="submit"
-              className={`flex items-center gap-2 text-sm font-medium px-4 py-1.5 rounded-full transition-colors ${
-                isCompleted
-                  ? "bg-[#a435f0] text-white"
-                  : "border border-gray-500 text-gray-300 hover:border-white hover:text-white"
-              }`}
+          {isEnrolled && markAction ? (
+            <form action={markAction}>
+              <button
+                type="submit"
+                className={`flex items-center gap-2 text-sm font-medium px-4 py-1.5 rounded-full transition-colors ${
+                  isCompleted
+                    ? "bg-[#a435f0] text-white"
+                    : "border border-gray-500 text-gray-300 hover:border-white hover:text-white"
+                }`}
+              >
+                {isCompleted ? "✓ Выполнено" : "Отметить выполненным"}
+              </button>
+            </form>
+          ) : (
+            <Link
+              href={`/courses/${courseSlug}`}
+              className="text-sm font-medium px-4 py-1.5 rounded-full border border-[#a435f0] text-[#a435f0] hover:bg-[#a435f0] hover:text-white transition-colors"
             >
-              {isCompleted ? "✓ Выполнено" : "Отметить выполненным"}
-            </button>
-          </form>
+              Записаться на курс →
+            </Link>
+          )}
         </div>
 
         {/* Content area */}

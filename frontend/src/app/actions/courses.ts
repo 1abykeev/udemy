@@ -46,11 +46,13 @@ export async function submitReview(
   const session = await getSession();
   if (!session) redirect("/login");
 
-  await prisma.review.upsert({
+  const review = await prisma.review.upsert({
     where: { userId_courseId: { userId: session.id, courseId } },
     update: { rating, comment },
     create: { userId: session.id, courseId, rating, comment },
+    include: { user: { select: { name: true } } },
   });
 
   revalidatePath(`/courses/${courseSlug}`);
+  return review;
 }

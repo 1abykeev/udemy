@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "@/lib/session";
 
-const studentRoutes = ["/dashboard", "/learn"];
+const studentRoutes = ["/dashboard"];
 const instructorRoutes = ["/instructor"];
 const authRoutes = ["/login", "/register"];
 
