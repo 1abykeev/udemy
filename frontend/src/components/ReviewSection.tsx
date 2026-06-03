@@ -129,7 +129,7 @@ export default function ReviewSection({
               onChange={(e) => setComment(e.target.value)}
               placeholder="Ваш комментарий (необязательно)"
               rows={3}
-              className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg resize-none focus:outline-none focus:border-[#a435f0] mb-2 bg-white"
+              className="w-full px-3 py-2 text-sm text-gray-900 border border-gray-200 rounded-lg resize-none focus:outline-none focus:border-[#a435f0] mb-2 bg-white"
             />
             <button
               type="submit"
@@ -151,7 +151,7 @@ export default function ReviewSection({
           {reviews.map((review) => (
             <div
               key={review.id}
-              className="border border-gray-200 rounded-lg p-4"
+              className="border border-gray-200 rounded-lg p-4 bg-white"
             >
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-8 h-8 rounded-full bg-[#a435f0] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
