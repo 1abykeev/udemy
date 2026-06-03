@@ -42,7 +42,7 @@ export default function NewCoursePage() {
                 required
                 rows={4}
                 placeholder="Расскажите, чему научатся студенты на вашем курсе..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0] resize-none"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:border-[#a435f0] focus:ring-1 focus:ring-[#a435f0] resize-none"
               />
             </div>
 
