@@ -48,7 +48,7 @@ export default async function CourseDetailPage({ params }: Props) {
   return (
     <>
       <Navbar />
-      <main>
+      <main className="bg-white">
         {/* Hero */}
         <div className="bg-[#1c1d1f] py-10">
           <div className="max-w-[1340px] mx-auto px-4 flex flex-col lg:flex-row gap-8 items-start">
